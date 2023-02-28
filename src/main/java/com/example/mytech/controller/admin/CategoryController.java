@@ -40,6 +40,12 @@ public class CategoryController {
 
     }
 
+    @GetMapping ("/api/admin/list")
+    public ResponseEntity<Object> getList () {
+        List<Category> categories = categoryService.getListCategory();
+        return ResponseEntity.ok(categories);
+    }
+
     // create category
     @PostMapping("/api/admin/categories")
     public ResponseEntity<?> createCategory(@Valid @RequestBody CategoryRep req) {

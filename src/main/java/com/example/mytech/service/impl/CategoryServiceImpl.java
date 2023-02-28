@@ -101,6 +101,15 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Category getCategoryById(String id) {
+        Optional<Category> category = categoryRepository.findById(id);
+        if(category.isEmpty()){
+            throw new NotFoundException("Không tìm thấy danh mục");
+        }
+        return category.get();
+    }
+
+    @Override
     public Page<Category> adminGetListCategory(String name, int page) {
         page--;
         if (page <= 0) {

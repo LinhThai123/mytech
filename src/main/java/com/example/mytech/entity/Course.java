@@ -1,5 +1,6 @@
 package com.example.mytech.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
@@ -28,7 +29,7 @@ public class Course {
     private String description;
 
     @Column(name = "status" , nullable = false)
-    private String status;
+    private int status;
 
     @Column(name = "is_public", columnDefinition = "TINYINT(1)")
     private boolean isPublic;
@@ -53,6 +54,11 @@ public class Course {
 
     @Column(name = "end_at", nullable = false)
     private Timestamp endAt;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    @JsonBackReference
+    private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")

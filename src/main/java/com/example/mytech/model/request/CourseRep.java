@@ -1,5 +1,7 @@
 package com.example.mytech.model.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +25,7 @@ public class CourseRep {
     @NotBlank(message = "Mô tả trống")
     private String description ;
 
-    private boolean status ;
+    private Integer status ;
 
     private boolean isPublic ;
 
@@ -33,12 +35,24 @@ public class CourseRep {
 
     private String image;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
+    @JsonProperty("created_at")
     private Timestamp createdAt;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
+    @JsonProperty("modified_at")
+    private Timestamp modifiedAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
+    @JsonProperty("published_at")
     private Timestamp publishedAt;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
+    @JsonProperty("end_at")
     private Timestamp endAt;
 
     private String teacher_id ;
+
+    private String category_id;
 
 }

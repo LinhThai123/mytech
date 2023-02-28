@@ -19,7 +19,7 @@ public class StudentController {
 
     @PostMapping("/api/admin/student")
     public ResponseEntity<?> createStudent(@Valid @RequestBody StudentRep req) {
-        Student category = studentService.createStudent(req);
-        return ResponseEntity.ok(category);
+        Student student = studentService.createStudent(req);
+        return ResponseEntity.ok(student);
     }
 }

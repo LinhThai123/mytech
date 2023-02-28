@@ -32,4 +32,6 @@ public class Category {
 
     @Column (name = "modified_at")
     private Timestamp modifiedAt;
+
+
 }

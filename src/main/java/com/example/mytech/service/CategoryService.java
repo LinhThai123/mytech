@@ -18,5 +18,7 @@ public interface CategoryService {
 
     public void deleteCategory(String id);
 
+    public Category getCategoryById(String id);
+
     Page<Category> adminGetListCategory(String name, int page);
 }

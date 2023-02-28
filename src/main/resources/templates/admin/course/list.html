@@ -65,8 +65,8 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="/" class="brand-link">
-<!--            <img th:src="@{/client/img/mytech.png}" alt="Logo" class="brand-image">-->
-                        <span class="brand-text font-weight-light">My Tech</span>
+            <!--            <img th:src="@{/client/img/mytech.png}" alt="Logo" class="brand-image">-->
+            <span class="brand-text font-weight-light">My Tech</span>
         </a>
 
         <!-- Sidebar -->
@@ -277,10 +277,12 @@
                                         <tr class="heading-search">
                                             <form method="GET" id="search-form">
                                                 <th>
-                                                    <input type="text" name="name" id="name" class="form-control thuy-search-input">
+                                                    <input type="text" name="name" id="name"
+                                                           class="form-control thuy-search-input">
                                                 </th>
                                                 <th>
-                                                    <select name="level" class="form-control thuy-search-select" id="level">
+                                                    <select name="level" class="form-control thuy-search-select"
+                                                            id="level">
                                                         <option value="">Tất cả</option>
                                                         <option value="0">Cơ bản</option>
                                                         <option value="1">Trung Bình</option>
@@ -288,7 +290,8 @@
                                                     </select>
                                                 </th>
                                                 <th>
-                                                    <select name="status" class="form-control thuy-search-select" id="status">
+                                                    <select name="status" class="form-control thuy-search-select"
+                                                            id="status">
                                                         <option value="">Tất cả</option>
                                                         <option value="false">Online</option>
                                                         <option value="true">Offline</option>
@@ -300,40 +303,24 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <th:block th:each="promotion : ${promotions}">
+                                        <th:block th:each="course : ${courses}">
                                             <tr>
                                                 <td>
-                                                    <a th:href="@{/admin/promotions/{id}(id=${promotion.id})}" th:text="${promotion.couponCode}"></a>
+                                                    <a th:href="@{/admin/courses/{id}(id=${course.id})}"
+                                                       th:text="${course.name}"></a>
+                                                </td>
+                                                <td th:text="${course.level}">
                                                 </td>
                                                 <td>
-                                                    <a th:href="@{/admin/promotions/{id}(id=${promotion.id})}" th:text="${promotion.name}"></a>
-                                                </td>
-                                                <td>
-                                                    <th:block th:if="${promotion.isPublic()} == true">
-                                                        Công khai
+                                                    <th:block th:if="${course.Status()} == true">
+                                                        Offline
                                                     </th:block>
-                                                    <th:block th:if="${promotion.isPublic()} == false">
-                                                        Ẩn
-                                                    </th:block>
-                                                </td>
-                                                <td>
-                                                    <th:block th:if="${promotion.isActive()} == true">
-                                                        Kích hoạt
-                                                    </th:block>
-                                                    <th:block th:if="${promotion.isActive()} == false">
-                                                        Vô hiệu hóa
-                                                    </th:block>
-                                                </td>
-                                                <td class="text-right">
-                                                    <th:block th:if="${promotion.discountType} == 1">
-                                                        <span th:text="${promotion.discountValue}"></span> %
-                                                    </th:block>
-                                                    <th:block th:if="${promotion.discountType} == 2">
-                                                        <span class="text-price" th:text="${promotion.discountValue}"></span> đ
+                                                    <th:block th:if="${course.Status()} == false">
+                                                        Online
                                                     </th:block>
                                                 </td>
                                                 <td>
-                                                    <span th:text="${#dates.format(promotion.expiredAt, 'dd-MM-yyyy')}"></span>
+                                                    <span th:text="${#dates.format(course.publishedAt, 'dd-MM-yyyy')}"></span>
                                                 </td>
                                             </tr>
                                         </th:block>
@@ -375,15 +362,15 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script th:inline="javascript">
-    let title,status, page;
+    let id, name, page;
     $(function () {
         let vars = parseUrl();
-        title = vars["name"] || ""
-        status = vars["category"] || ""
+        id = vars["id"] || ""
+        name = vars["name"] || ""
         page = vars["page"] || "1"
         $('#page').val(page)
-        $('#title').val(title)
-        $('#status').val(status)
+        $('#id').val(id)
+        $('#name').val(name)
         pagination([[${totalPages}]], [[${currentPage}]]);
 
     });

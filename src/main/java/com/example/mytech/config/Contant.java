@@ -11,7 +11,9 @@ public class Contant {
     public static final int LIMIT_USER = 10 ;
 
     // Cấp độ khóa học
-
+    public static final int EASY = 0;
+    public static final int NORMAL = 1;
+    public static final int HARD = 2;
 
     // Trạng thái post
     public static final int PUBLIC_COURSE = 1;

@@ -19,6 +19,7 @@ public class Student extends Person{
     private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "class_id")
-    private Classes classes;
+    @JoinColumn(name = "course_id")
+    private Course course;
+
 }

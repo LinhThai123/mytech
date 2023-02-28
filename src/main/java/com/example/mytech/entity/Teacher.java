@@ -21,7 +21,4 @@ public class Teacher extends Person{
     @GeneratedValue(generator = "random_id")
     private String id;
 
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = false)
-    @JsonManagedReference
-    private List<Classes> classes = new ArrayList<>();
 }

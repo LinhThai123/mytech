@@ -2,10 +2,8 @@ package com.example.mytech.entity;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.List;
 
 @Getter
 @Setter
@@ -23,11 +21,35 @@ public class Course {
     @Column(name = "name" , nullable = false)
     private String name ;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "slug")
+    private String slug;
+
+    @Column(name = "description" , columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "createa_at", nullable = false)
+    @Column(name = "status" , nullable = false)
+    private String status;
+
+    @Column(name = "is_public", columnDefinition = "TINYINT(1)")
+    private boolean isPublic;
+
+    @Column (name = "price" , nullable = false)
+    private double price ;
+
+    @Column(name = "is_level" , nullable = false)
+    private int level;
+
+    @Column(name = "image")
+    private String image;
+
+    @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
+
+    @Column(name = "modified_at", nullable = false)
+    private Timestamp modifiedAt;
+
+    @Column (name = "published_at")
+    private Timestamp publishedAt;
 
     @Column(name = "end_at", nullable = false)
     private Timestamp endAt;
@@ -36,11 +58,6 @@ public class Course {
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "class_course",
-            joinColumns = @JoinColumn(name = "class_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id")
-    )
-    private List<Classes> classes;
+
+
 }

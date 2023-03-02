@@ -3,6 +3,7 @@ package com.example.mytech.service;
 import com.example.mytech.entity.Category;
 import com.example.mytech.entity.Teacher;
 import com.example.mytech.model.request.TeacherRep;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface TeacherService {
     public List<Teacher> getListTeacher();
 
     public Teacher createTeacher(TeacherRep req);
+
+    public Page<Teacher> adminGetListTeacher (String name , String email, Integer page);
 }

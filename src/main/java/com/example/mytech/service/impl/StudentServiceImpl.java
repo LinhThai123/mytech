@@ -2,6 +2,7 @@ package com.example.mytech.service.impl;
 
 import com.example.mytech.entity.Student;
 import com.example.mytech.exception.BadRequestException;
+import com.example.mytech.exception.InternalServerException;
 import com.example.mytech.model.request.StudentRep;
 import com.example.mytech.repository.StudentRepository;
 import com.example.mytech.service.StudentService;
@@ -28,9 +29,8 @@ public class StudentServiceImpl implements StudentService {
 
         student.setName(rep.getName());
 
-
         student.setPassword(rep.getPassword());
-        // check trungf email
+        // check trung email
         if(studentRepository.existsByEmail(rep.getEmail())){
             throw new BadRequestException("Email already exists");
         }
@@ -48,7 +48,12 @@ public class StudentServiceImpl implements StudentService {
 
         student.setRoles(new ArrayList<>(Arrays.asList("STUDENT")));
 
-        studentRepository.save(student);
-        return student;
+        try{
+            studentRepository.save(student);
+            return student;
+        }
+        catch (Exception e) {
+            throw new InternalServerException("Lỗi khi thêm học viên ");
+        }
     }
 }

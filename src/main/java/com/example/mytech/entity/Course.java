@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -35,7 +36,7 @@ public class Course {
     private boolean isPublic;
 
     @Column (name = "price" , nullable = false)
-    private double price ;
+    private long price ;
 
     @Column(name = "is_level" , nullable = false)
     private int level;
@@ -52,8 +53,8 @@ public class Course {
     @Column (name = "published_at")
     private Timestamp publishedAt;
 
-    @Column(name = "end_at", nullable = false)
-    private Timestamp endAt;
+    @Column(name = "expired_at")
+    private Timestamp expiredAt;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
@@ -63,7 +64,6 @@ public class Course {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
-
 
 
 }

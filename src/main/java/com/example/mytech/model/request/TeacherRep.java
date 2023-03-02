@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.*;
+import java.sql.Timestamp;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,11 +27,21 @@ public class TeacherRep {
     @Size(min = 4, max = 20, message = "Mật khẩu phải chứa từ 4 - 20 ký tự")
     private String password;
 
+    private String gender;
+
+    private String avatar ;
+
+    private boolean status ;
+
     @NotBlank(message = "Điện thoại trống")
     @Pattern(regexp="(09|01[2|6|8|9])+([0-9]{8})\\b", message = "Điện thoại không hợp lệ")
     private String phone ;
 
     @NotBlank(message = "Địa chỉ trống")
     private String address;
+
+    private Timestamp createdAt ;
+
+    private Timestamp modifiedAt ;
 
 }

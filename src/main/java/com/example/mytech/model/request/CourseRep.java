@@ -7,9 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 @Getter
 @Setter
@@ -18,6 +20,7 @@ import java.sql.Timestamp;
 public class CourseRep {
 
     private String id ;
+
     @NotBlank(message = "Tên khóa học trống")
     @Size(min = 1, max = 300, message = "Độ dài tên sản phẩm từ 1 - 300 ký tự")
     private String name;
@@ -35,24 +38,20 @@ public class CourseRep {
 
     private String image;
 
-    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
-    @JsonProperty("created_at")
-    private Timestamp createdAt;
-
-    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
-    @JsonProperty("modified_at")
-    private Timestamp modifiedAt;
-
-    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
-    @JsonProperty("published_at")
-    private Timestamp publishedAt;
-
-    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
-    @JsonProperty("end_at")
-    private Timestamp endAt;
+    @JsonFormat(pattern = "yyyy-mm-dd hh:mm:ss", shape = JsonFormat.Shape.STRING)
+    @JsonProperty("expired_at")
+    private Timestamp expiredAt;
 
     private String teacher_id ;
 
     private String category_id;
 
+
+    public Timestamp getExpiredAt() {
+        return expiredAt;
+    }
+
+    public void setExpiredAt(String expiredAt) {
+        this.expiredAt = Timestamp.valueOf(expiredAt) ;
+    }
 }

@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Component
 public class CourseServiceImpl implements CourseService {
@@ -48,11 +49,11 @@ public class CourseServiceImpl implements CourseService {
 
         Course course = new Course();
 
-        // check end_at
-        Timestamp now = new Timestamp(System.currentTimeMillis());
-        if (rep.getEndAt().before(now)) {
-            throw new BadRequestException("Hạn kết thúc khóa học không hợp lệ");
-        }
+         //check end_at
+//        Timestamp now = new Timestamp(System.currentTimeMillis());
+//        if (rep.getExpiredAt().before(now)) {
+//            throw new BadRequestException("Hạn kết thúc khóa học không hợp lệ");
+//        }
 
         //check exits name
         if(courseRepository.existsByName(rep.getName())) {
@@ -74,9 +75,9 @@ public class CourseServiceImpl implements CourseService {
             if (rep.getDescription().isEmpty()) {
                 throw new BadRequestException("Để công khai khóa học vui lòng nhập mô tả ");
             }
-            if(rep.getImage().isEmpty()) {
-                throw new BadRequestException("Để công khai khóa học vui lòng thêm ảnh ");
-            }
+//            if(rep.getImage().isEmpty()) {
+//                throw new BadRequestException("Để công khai khóa học vui lòng thêm ảnh ");
+//            }
             course.setPublishedAt(new Timestamp(System.currentTimeMillis()));
         }
 

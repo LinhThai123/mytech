@@ -3,6 +3,7 @@ package com.example.mytech.entity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,8 +19,12 @@ public class Student extends Person{
     @GeneratedValue(generator = "random_id")
     private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id")
-    private Course course;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "student_course",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private List<Course> courses;
 
 }

@@ -14,6 +14,8 @@ import javax.validation.constraints.Size;
 @Setter
 public class CategoryRep {
 
+    private String id ;
+
     @NotBlank(message = "Tên danh mục không được để trống")
     @Size(min = 1, max = 300, message = "Độ dài tên danh mục từ 1 - 300 ký tự")
     private String name ;

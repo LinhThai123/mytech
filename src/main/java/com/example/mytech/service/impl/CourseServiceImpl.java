@@ -6,6 +6,7 @@ import com.example.mytech.entity.Course;
 import com.example.mytech.entity.Teacher;
 import com.example.mytech.exception.BadRequestException;
 import com.example.mytech.exception.InternalServerException;
+import com.example.mytech.exception.NotFoundException;
 import com.example.mytech.model.request.CourseRep;
 import com.example.mytech.repository.CourseRepository;
 import com.example.mytech.service.CategoryService;
@@ -20,7 +21,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class CourseServiceImpl implements CourseService {
@@ -35,7 +38,21 @@ public class CourseServiceImpl implements CourseService {
     private TeacherService teacherService ;
 
     @Override
-    public Page<Course> adminGetListProduct(String id, String name, Integer page) {
+    public List<Course> getListCourse() {
+        return courseRepository.findAll();
+    }
+
+    @Override
+    public Course getCourseById(String id) {
+        Optional<Course> course = courseRepository.findById(id) ;
+        if(!course.isPresent()) {
+            throw new NotFoundException("Course do not exits");
+        }
+        return course.get();
+    }
+
+    @Override
+    public Page<Course> adminGetListCourses(String id, String name, Integer page) {
         page--;
         if (page < 0) {
             page = 0;
@@ -50,11 +67,11 @@ public class CourseServiceImpl implements CourseService {
         Course course = new Course();
 
          //check end_at
-//        Timestamp now = new Timestamp(System.currentTimeMillis());
-//        if (rep.getExpiredAt().before(now)) {
-//            throw new BadRequestException("Hạn kết thúc khóa học không hợp lệ");
-//        }
-
+        LocalDate date = LocalDate.now();
+        if (rep.getExpiredAt().isBefore(date)) {
+            throw new BadRequestException("Hạn kết thúc khóa học không hợp lệ");
+        }
+        course.setExpiredAt(rep.getExpiredAt().plusDays(1));
         //check exits name
         if(courseRepository.existsByName(rep.getName())) {
             throw new BadRequestException("Tên khóa học đã tồn tại");
@@ -70,7 +87,7 @@ public class CourseServiceImpl implements CourseService {
 
         course.setDescription(rep.getDescription());
 
-        if (rep.isPublic()) {
+        if (rep.getActive() == Contant.PUBLIC_COURSE) {
             // Public post
             if (rep.getDescription().isEmpty()) {
                 throw new BadRequestException("Để công khai khóa học vui lòng nhập mô tả ");
@@ -80,9 +97,12 @@ public class CourseServiceImpl implements CourseService {
 //            }
             course.setPublishedAt(new Timestamp(System.currentTimeMillis()));
         }
+        course.setActive(rep.getActive());
 
+        course.setStatus(rep.getStatus());
         // image of course
         course.setImage(rep.getImage());
+
         course.setLevel(rep.getLevel());
 
         // get list category by id
@@ -104,10 +124,76 @@ public class CourseServiceImpl implements CourseService {
 
         try{
             courseRepository.save(course);
-            return course ;
+
         }
         catch (Exception e) {
             throw new InternalServerException("Lỗi khi thêm khóa học");
         }
+        return course;
+    }
+
+    @Override
+    public Course updateCourse(String id, CourseRep rep) {
+        Course course;
+        Optional<Course> rs = courseRepository.findById(id);
+        course = rs.get();
+        if(!rs.isPresent()) {
+            throw new NotFoundException("Course do not exits");
+        }
+//        if(courseRepository.existsByName(rep.getName())) {
+//            throw new BadRequestException("Tên khóa học đã tồn tại");
+//        }
+        course.setName(rep.getName());
+
+        // set slug
+        Slugify slg = new Slugify() ;
+        course.setSlug(slg.slugify(rep.getName()));
+
+        // set price
+        course.setPrice(rep.getPrice());
+
+        course.setDescription(rep.getDescription());
+
+        if (rep.getActive() == Contant.PUBLIC_COURSE) {
+//            if(rep.getImage().isEmpty()) {
+//                throw new BadRequestException("Để công khai khóa học vui lòng thêm ảnh ");
+//            }
+            course.setPublishedAt(new Timestamp(System.currentTimeMillis()));
+        }
+        course.setActive(rep.getActive());
+
+        course.setStatus(rep.getStatus());
+        // image of course
+        course.setImage(rep.getImage());
+
+        course.setLevel(rep.getLevel());
+
+        // get list category by id
+        if(rep.getCategory_id().isEmpty()) {
+            throw new BadRequestException("Vui lòng chọn danh mục cho khóa học");
+        }
+        Category category = categoryService.getCategoryById(rep.getCategory_id());
+        course.setCategory(category);
+
+        // gte list teacher by id
+        if(rep.getTeacher_id().isEmpty()) {
+            throw new BadRequestException("Vui lòng chọn giảng viên cho khóa học");
+        }
+        Teacher teacher = teacherService.getTeacherById(rep.getTeacher_id());
+        course.setTeacher(teacher);
+
+        course.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        course.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+
+        course.setId(id);
+
+        try{
+            courseRepository.save(course);
+            return course;
+        }
+        catch (Exception e) {
+            throw new InternalServerException("Lỗi khi sửa khóa học");
+        }
+
     }
 }

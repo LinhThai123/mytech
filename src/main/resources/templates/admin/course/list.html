@@ -236,12 +236,12 @@
 
                 <!-- Toolbar -->
                 <div class="toolbar">
-                    <a role="button" class="btn btn-success" href="/admin/posts/create">
+                    <a role="button" class="btn btn-success" href="/admin/course/create">
                         <span class="fa fa-plus" style="margin-right:0.5rem;"></span>
                         <span>Thêm Khóa Học</span>
                     </a>
 
-                    <a role="button" class="btn btn-info" href="/admin/posts">
+                    <a role="button" class="btn btn-info" href="/admin/courses">
                         <span class="fas fa-redo-alt" style="margin-right:0.5rem;"></span>
                         <span>Refresh</span>
                     </a>
@@ -273,6 +273,9 @@
                                             <th width="15%">
                                                 Ngày công khai
                                             </th>
+                                            <th width="15%">
+                                                Ngày kết thúc
+                                            </th>
                                         </tr>
                                         <tr class="heading-search">
                                             <form method="GET" id="search-form">
@@ -284,19 +287,20 @@
                                                     <select name="level" class="form-control thuy-search-select"
                                                             id="level">
                                                         <option value="">Tất cả</option>
-                                                        <option value="0">Cơ bản</option>
-                                                        <option value="1">Trung Bình</option>
-                                                        <option value="2">Khó</option>
+                                                        <option value="0">Beginer</option>
+                                                        <option value="1">Medium</option>
+                                                        <option value="2">Good</option>
                                                     </select>
                                                 </th>
                                                 <th>
                                                     <select name="status" class="form-control thuy-search-select"
                                                             id="status">
                                                         <option value="">Tất cả</option>
-                                                        <option value="false">Online</option>
-                                                        <option value="true">Offline</option>
+                                                        <option value="0">Online</option>
+                                                        <option value="1">Offline</option>
                                                     </select>
                                                 </th>
+                                                <th></th>
                                                 <th></th>
                                                 <input type="hidden" name="page" id="page">
                                             </form>
@@ -309,25 +313,39 @@
                                                     <a th:href="@{/admin/courses/{id}(id=${course.id})}"
                                                        th:text="${course.name}"></a>
                                                 </td>
-                                                <td th:text="${course.level}">
+                                                <td>
+                                                    <th:block th:if="${course.level} == 0">
+                                                        Beginner
+                                                    </th:block>
+                                                    <th:block th:if="${course.level} == 1">
+                                                        Medium
+                                                    </th:block>
+                                                    <th:block th:if="${course.level} == 2">
+                                                        Good
+                                                    </th:block>
                                                 </td>
                                                 <td>
-                                                    <th:block th:if="${course.Status()} == true">
+                                                    <th:block th:if="${course.status} == 1">
                                                         Offline
                                                     </th:block>
-                                                    <th:block th:if="${course.Status()} == false">
+                                                    <th:block th:if="${course.status} == 0">
                                                         Online
                                                     </th:block>
                                                 </td>
                                                 <td>
                                                     <span th:text="${#dates.format(course.publishedAt, 'dd-MM-yyyy')}"></span>
                                                 </td>
+                                                <td>
+                                                    <th:block th:if="${course.active} == 1">
+                                                        <span th:text="${#temporals.format(course.expiredAt, 'dd-MM-yyyy')}"></span>
+                                                    </th:block>
+
+                                                </td>
                                             </tr>
                                         </th:block>
                                         </tbody>
                                     </table>
                                 </div>
-
                                 <!-- Pagination -->
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination" id="pagination"></ul>

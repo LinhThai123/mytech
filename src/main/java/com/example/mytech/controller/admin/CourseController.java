@@ -1,6 +1,8 @@
 package com.example.mytech.controller.admin;
 
+import com.example.mytech.entity.Category;
 import com.example.mytech.entity.Course;
+import com.example.mytech.exception.NotFoundException;
 import com.example.mytech.model.request.CategoryRep;
 import com.example.mytech.model.request.CourseRep;
 import com.example.mytech.model.request.TeacherRep;
@@ -36,19 +38,24 @@ public class CourseController {
 
     ModelMapper modelMapper = new ModelMapper();
 
-    @GetMapping("/admin/course")
+    @GetMapping("/admin/courses")
     public String getAdminProducts(Model model,
                                    @RequestParam(defaultValue = "", required = false) String id,
                                    @RequestParam(defaultValue = "", required = false) String name,
                                    @RequestParam(defaultValue = "1", required = false) Integer page) {
         // get list course
-        Page<Course> courses = courseService.adminGetListProduct(id, name, page);
-        model.addAttribute("course", courses.getContent());
+        Page<Course> courses = courseService.adminGetListCourses(id, name, page);
+        model.addAttribute("courses", courses.getContent());
         model.addAttribute("totalPages", courses.getTotalPages());
         model.addAttribute("currentPage", courses.getPageable().getPageNumber() + 1);
         return "admin/course/list";
     }
-
+    //get list course no page
+    @GetMapping ("/api/admin/course")
+    public ResponseEntity<Object> getListCourse () {
+        List<Course> courses = courseService.getListCourse();
+        return ResponseEntity.ok(courses);
+    }
 
     // get list category
     @ModelAttribute("categories")
@@ -77,6 +84,7 @@ public class CourseController {
         model.addAttribute("course" , rep);
         return "admin/course/create";
     }
+
     // add course by Server Side
     @PostMapping("/admin/course/create")
     public ModelAndView createCourse(ModelMap model, @Valid @ModelAttribute(value = "course") CourseRep req, BindingResult result) {
@@ -91,7 +99,39 @@ public class CourseController {
     // add course by API
     @PostMapping("/api/admin/courses")
     public ResponseEntity<?> createCourse(@Valid @RequestBody CourseRep req) {
-        Course courseId = courseService.createCourse(req);
-        return ResponseEntity.ok(courseId.getId());
+        Course course = courseService.createCourse(req);
+        return ResponseEntity.ok(course);
+    }
+
+    // Go to page details
+    @GetMapping("/admin/courses/{id}")
+    public String getDetailProducPage(Model model, @PathVariable("id") String id) {
+        try {
+            // Get info
+            Course course = courseService.getCourseById(id);
+            model.addAttribute("course", course);
+
+            return "admin/course/details";
+        } catch (NotFoundException ex) {
+            return "admin/error/err";
+        }
+    }
+
+    //update code thymleaf
+    @PostMapping ("/admin/courses/update/{id}")
+    public ModelAndView updateCourse(@Valid @PathVariable String id, @ModelAttribute("course") CourseRep req, ModelMap model, BindingResult result) {
+        if (result.hasErrors()) {
+            req.setId(id);
+            return new ModelAndView("redirect:/admin/course/details", model);
+        }
+        Course course = courseService.updateCourse(id, req);
+        model.addAttribute("course", course);
+        return new ModelAndView("redirect:/admin/courses", model);
+    }
+    // update course api
+    @PutMapping("/api/admin/update/course/{id}")
+    public ResponseEntity<?> updateCourse (@PathVariable("id") String id, @Valid @RequestBody CourseRep rep) {
+        courseService.updateCourse(id, rep);
+        return ResponseEntity.ok("Cập nhật thành công");
     }
 }

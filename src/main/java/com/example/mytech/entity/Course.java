@@ -1,10 +1,13 @@
 package com.example.mytech.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -29,11 +32,11 @@ public class Course {
     @Column(name = "description" , columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "status" , nullable = false)
+    @Column(name = "status" , nullable = false , columnDefinition = "TINYINT(1)")
     private int status;
 
-    @Column(name = "is_public", columnDefinition = "TINYINT(1)")
-    private boolean isPublic;
+    @Column(name = "active" ,columnDefinition = "TINYINT(1)")
+    private int active;
 
     @Column (name = "price" , nullable = false)
     private long price ;
@@ -54,7 +57,7 @@ public class Course {
     private Timestamp publishedAt;
 
     @Column(name = "expired_at")
-    private Timestamp expiredAt;
+    private LocalDate expiredAt;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)

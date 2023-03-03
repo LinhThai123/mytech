@@ -1,17 +1,17 @@
 package com.example.mytech.model.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.Column;
+import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+
+
 
 @Getter
 @Setter
@@ -30,7 +30,8 @@ public class CourseRep {
 
     private Integer status ;
 
-    private boolean isPublic ;
+    @JsonProperty("active")
+    private Integer active ;
 
     private long price ;
 
@@ -38,20 +39,13 @@ public class CourseRep {
 
     private String image;
 
-    @JsonFormat(pattern = "yyyy-mm-dd hh:mm:ss", shape = JsonFormat.Shape.STRING)
+//    @JsonFormat(pattern = "yyyy-mm-dd", shape = JsonFormat.Shape.STRING)
     @JsonProperty("expired_at")
-    private Timestamp expiredAt;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate expiredAt;
 
     private String teacher_id ;
 
     private String category_id;
 
-
-    public Timestamp getExpiredAt() {
-        return expiredAt;
-    }
-
-    public void setExpiredAt(String expiredAt) {
-        this.expiredAt = Timestamp.valueOf(expiredAt) ;
-    }
 }

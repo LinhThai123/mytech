@@ -233,7 +233,7 @@
 
             <div class="container-fluid">
                 <!-- Breadcrumb -->
-                <form method="post" th:action="@{/admin/course/create}" th:object="${course}">
+                <form method="post" th:action="@{/admin/courses/create}" th:object="${course}">
                     <div class="row">
                         <div class="col-12">
                             <ol class="breadcrumb">
@@ -282,6 +282,14 @@
                                                        th:field="*{expiredAt}">
                                             </div>
                                             <div class="form-group">
+                                                <label for="active" class="required-label">Trạng thái</label>
+                                                <select class="form-control" id="active" name="active"
+                                                        th:field="*{active}">
+                                                    <option th:value="1">Công khai</option>
+                                                    <option th:value="0">Nháp</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
                                                 <div>
                                                     <label class="required-label" for="description">Mô tả</label>
                                                     <span class="text-danger"
@@ -294,7 +302,7 @@
                                         </div>
                                         <div class="col-lg-3 col-md-4">
                                             <div class="form-group">
-                                                <label for="status" class="required-label">Trạng thái</label>
+                                                <label for="status" class="required-label">Hình thức</label>
                                                 <select class="form-control" id="status" name="status"
                                                         th:field="*{status}">
                                                     <option th:value="1">Online</option>
@@ -307,7 +315,7 @@
                                                         th:field="*{level}">
                                                     <option th:value="0">Beginner</option>
                                                     <option th:value="1">Medium</option>
-                                                    <option th:value="1">Good</option>
+                                                    <option th:value="2">Good</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
@@ -459,7 +467,7 @@
     $(function () {
         $('#description').summernote(
             {
-                height: 450,
+                height: 360,
                 focus: true
             }
         )

@@ -5,8 +5,10 @@ import com.example.mytech.entity.Category;
 import com.example.mytech.exception.BadRequestException;
 import com.example.mytech.exception.InternalServerException;
 import com.example.mytech.exception.NotFoundException;
+import com.example.mytech.model.dto.CategoryDTO;
 import com.example.mytech.model.request.CategoryRep;
 import com.example.mytech.repository.CategoryRepository;
+import com.example.mytech.repository.CourseRepository;
 import com.example.mytech.service.CategoryService;
 import com.github.slugify.Slugify;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private CourseRepository courseRepository ;
 
     @Override
     public List<Category> getListCategory() {
@@ -54,6 +59,11 @@ public class CategoryServiceImpl implements CategoryService {
         } catch (Exception ex) {
             throw new InternalServerException("Lỗi khi thêm category");
         }
+    }
+
+    @Override
+    public List<CategoryDTO> getListCategoryAndCourseCount() {
+        return categoryRepository.getListCategoryAndCourseCount();
     }
 
     @Override

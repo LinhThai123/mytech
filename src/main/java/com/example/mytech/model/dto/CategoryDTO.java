@@ -12,5 +12,5 @@ import lombok.Setter;
 public class CategoryDTO {
     private String id ;
     private String name ;
-    private Integer course_count ;
+    private int courseCount ;
 }

@@ -1,6 +1,7 @@
 package com.example.mytech.service;
 
 import com.example.mytech.entity.Category;
+import com.example.mytech.model.dto.CategoryDTO;
 import com.example.mytech.model.request.CategoryRep;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ public interface CategoryService {
     public List<Category> getListCategory();
 
     public Category createCategory(CategoryRep req);
+
+    // count course category
+    public List<CategoryDTO> getListCategoryAndCourseCount();
 
     public void updateCategory(String id, CategoryRep req);
 

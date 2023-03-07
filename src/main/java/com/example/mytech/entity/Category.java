@@ -1,5 +1,6 @@
 package com.example.mytech.entity;
 
+import com.example.mytech.model.dto.CategoryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,29 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+@SqlResultSetMappings(
+        value = {
+                @SqlResultSetMapping(
+                        name = "categoryDTO",
+                        classes = @ConstructorResult(
+                                targetClass = CategoryDTO.class,
+                                columns = {
+                                        @ColumnResult(name = "id", type = String.class),
+                                        @ColumnResult(name = "name", type = String.class),
+                                        @ColumnResult(name = "course_count", type = Integer.class)
+                                }
+                        )
+                )
+        }
+)
+@NamedNativeQuery(
+        name = "getListCategoryAndCourseCount",
+        resultSetMapping = "categoryDTO",
+        query = ( "SELECT category.id, category.name, COUNT(course.id) as course_count\n" +
+                "FROM category\n" +
+                "INNER JOIN course ON category.id = course.category_id"
+        )
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -32,6 +56,5 @@ public class Category {
 
     @Column (name = "modified_at")
     private Timestamp modifiedAt;
-
 
 }

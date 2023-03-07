@@ -7,29 +7,30 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "teacher")
+@Table(name = "user")
 @Entity
 @TypeDef(
         name = "json",
         typeClass = JsonStringType.class
 )
-public class Teacher implements Serializable {
+public class User {
+
     @GenericGenerator(name = "random_id", strategy = "com.example.mytech.model.custom.RandomIdGenerator")
     @Id
     @GeneratedValue(generator = "random_id")
     private String id;
 
-    @Column
+    @Column(name = "name" , nullable = false)
     private String name ;
 
     @Column(name = "email",nullable = false,length = 200)
@@ -53,9 +54,6 @@ public class Teacher implements Serializable {
     @Column(name = "status",columnDefinition = "BOOLEAN")
     private boolean status;
 
-    @Type(type = "json")
-    @Column(name = "roles" , nullable = false, columnDefinition = "json")
-    private List<String> roles ;
 
     @Column(name = "created_at")
     private Timestamp createdAt;
@@ -63,4 +61,26 @@ public class Teacher implements Serializable {
     @Column(name = "modified_at")
     private Timestamp modifiedAt;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_course",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private List<Course> courses;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
+
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 }

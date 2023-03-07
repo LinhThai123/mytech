@@ -1,6 +1,7 @@
 package com.example.mytech.controller.admin;
 
 import com.example.mytech.entity.Category;
+import com.example.mytech.model.dto.CategoryDTO;
 import com.example.mytech.model.request.CategoryRep;
 import com.example.mytech.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +38,17 @@ public class CategoryController {
                                                          @RequestParam(defaultValue = "0", required = false) Integer page) {
         Page<Category> categories = categoryService.adminGetListCategory(name, page);
         return ResponseEntity.ok(categories);
-
     }
 
+//    @GetMapping("/admin/categories")
+//    public String getCategoryManagePage(Model model) {
+//        List<CategoryDTO> categories = categoryService.getListCategoryAndCourseCount();
+//        model.addAttribute("categories", categories);
+//        return "admin/category/list";
+//    }
+
     @GetMapping ("/api/admin/list")
-    public ResponseEntity<Object> getList () {
+    public ResponseEntity<Object> getListCategory () {
         List<Category> categories = categoryService.getListCategory();
         return ResponseEntity.ok(categories);
     }

@@ -2,7 +2,7 @@ package com.example.mytech.config;
 
 public class Contant {
     // 7 ngày
-    public static final int MAX_AGE_COOKIE = 7 * 24 * 60 * 60;
+    public static final int MAX_AGE_COOKIE = 1 * 24 * 60 * 60;
 
     // limit
     public static final int LIMIT_CATEGORY = 10 ;

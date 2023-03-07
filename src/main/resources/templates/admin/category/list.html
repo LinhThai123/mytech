@@ -257,9 +257,13 @@
                                     <table class="table table-striped table-bordered table-hover">
                                         <thead>
                                         <tr class="heading">
-                                            <th>Category</th>
-                                            <!--<th>Số lượng sản phẩm</th>-->
-                                            <th>Chức năng</th>
+                                            <th width="55%">
+                                                Danh mục
+                                            </th>
+<!--                                            <th width="15%">-->
+<!--                                                Số lượng sản phẩm-->
+<!--                                            </th>-->
+                                            <th> Chức năng</th>
                                         </tr>
                                         <tr>
                                             <form method="GET" id="search-form">
@@ -277,6 +281,8 @@
 
                                                 <td class="category-name" th:data-id="${category.id}"
                                                     th:text="${category.name}"></td>
+
+<!--                                                <td th:text="${category.courseCount}"></td>-->
                                                 <td>
                                                     <button class="btn" onclick="updateCategory(this)"
                                                             th:data-id="${category.id}"><i class="fas fa-edit"></i>

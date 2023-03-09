@@ -11,6 +11,7 @@ import com.example.mytech.model.request.CourseRep;
 import com.example.mytech.repository.CourseRepository;
 import com.example.mytech.service.CategoryService;
 import com.example.mytech.service.CourseService;
+import com.example.mytech.service.ImageService;
 import com.example.mytech.service.TeacherService;
 import com.github.slugify.Slugify;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -36,6 +38,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private TeacherService teacherService ;
+
+    @Autowired
+    private ImageService imageService ;
 
     @Override
     public List<Course> getListCourse() {
@@ -197,6 +202,16 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void deleteCourse(Course course) {
         courseRepository.delete(course);
+    }
+
+    @Override
+    public String uploadFile(MultipartFile file) {
+        return imageService.uploadFile(file);
+    }
+
+    @Override
+    public byte[] readFile(String fileId) {
+        return imageService.readFile(fileId) ;
     }
 
 }

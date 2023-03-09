@@ -10,6 +10,8 @@ public class Contant {
     public static final int LIMIT_POST = 10 ;
     public static final int LIMIT_USER = 10 ;
 
+
+    public static final int LIMIT_IMAGE = 4 ;
     // Trạng thái course
     public static final int PUBLIC_COURSE = 1;
     public static final int DRAFT_COURSE = 0;

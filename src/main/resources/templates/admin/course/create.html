@@ -364,14 +364,11 @@
                                                 <input type="text" class="form-control text-price-input" id="price"
                                                        name="price" th:field="*{price}">
                                             </div>
-                                            <input type="hidden" name="image" id="image" th:field="*{image}">
                                             <div class="form-group">
                                                 <div>
-                                                    <label class="required-label">Ảnh khóa học</label> <i>(Lưu ý: Nên để
-                                                    nền
-                                                    trắng)</i>
+                                                    <label class="required-label">Ảnh khóa học</label>
                                                     <span class="text-danger" th:if="${#fields.hasErrors('image')}"
-                                                          th:errors="*{image}">
+                                                          th:errors="*{thumbnail}">
                                                     </span>
                                                 </div>
                                                 <div class="thumbnail-container">
@@ -386,6 +383,7 @@
                                                 </button>
                                             </div>
                                         </div>
+                                        <input type="hidden" name="image" id="image" th:field="*{image}">
                                     </div>
                                 </div>
                             </div>
@@ -464,6 +462,7 @@
         integrity="sha512-TawcSfIUO8yB0Or8FXEDW2X32Q71ZGAOYVVwe7n3EsoyQb+iMZbodI6RnQ4JDcItNoO3TmwP7/bD89vhQA4zTA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script th:inline="javascript">
+
     $(function () {
         $('#description').summernote(
             {
@@ -514,8 +513,10 @@
             success: function (data) {
                 $("#list_img_ul").append(`
                 <div class="grid-item" onclick="chooseImg(this)">
-                    <div class="img-container"><div class="img-div">
-                        <img class="grid-item-img" src="${data}">
+                    <div class="img-container">
+                       <div class="img-div">
+                          <img class="grid-item-img" src="${data}">
+                       </div>
                     </div>
                 </div>
                 `)

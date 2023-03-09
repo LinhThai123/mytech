@@ -6,18 +6,21 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class CustomUserDetails implements UserDetails {
 
-    private String id ;
-    private String name ;
-    private String email ;
-    @JsonIgnore
-    private String password ;
+    private String id;
+    private String name;
+    private String email;
 
-    private Collection<? extends GrantedAuthority> authorities ;
+    @JsonIgnore
+    private String password;
+
+    private Collection<? extends GrantedAuthority> authorities;
 
     public CustomUserDetails(String id, String name, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
@@ -27,16 +30,16 @@ public class CustomUserDetails implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static CustomUserDetails build (User user) {
+    public static CustomUserDetails build(User user) {
         List<GrantedAuthority> authorities = user.getRoles().stream()
-                .map( role -> new SimpleGrantedAuthority(role.getName().name()))
+                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
         return new CustomUserDetails(user.getId(), user.getName(), user.getEmail(), user.getPassword(), authorities);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-      return authorities ;
+        return authorities;
     }
 
     public String getId() {
@@ -66,7 +69,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name ;
+        return name;
     }
 
     @Override
@@ -91,9 +94,9 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean equals(Object obj) {
-        if(this == obj) return true;
-        if(obj == null || getClass() != obj.getClass()) return false ;
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
         CustomUserDetails userDetails = (CustomUserDetails) obj;
-        return Objects.equals(id,userDetails.id);
+        return Objects.equals(id, userDetails.id);
     }
 }

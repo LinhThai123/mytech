@@ -4,6 +4,7 @@ import com.example.mytech.entity.Course;
 import com.example.mytech.model.request.CourseRep;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -26,5 +27,10 @@ public interface CourseService {
 
     // delete coure theo id
     public void deleteCourse (Course course) ;
+
+    // uploadFile
+    public String uploadFile(MultipartFile file) ;
+
+    public byte[] readFile (String fileId) ;
 
 }

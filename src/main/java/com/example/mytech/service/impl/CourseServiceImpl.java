@@ -145,9 +145,9 @@ public class CourseServiceImpl implements CourseService {
         if(!rs.isPresent()) {
             throw new NotFoundException("Course do not exits");
         }
-//        if(courseRepository.existsByName(rep.getName())) {
-//            throw new BadRequestException("Tên khóa học đã tồn tại");
-//        }
+        if(courseRepository.existsByName(rep.getName())) {
+            throw new BadRequestException("Tên khóa học đã tồn tại");
+        }
         course.setName(rep.getName());
 
         // set slug
